@@ -1,0 +1,146 @@
+{
+  "Apple": {
+    "tickers": ["AAPL"],
+    "name": "Apple",
+    "full_name": "Apple Inc.",
+    "products": [
+      "iphone",
+      "mac"
+      "macbook",
+      "ipad"
+      "apple watch",
+      "iphone 7"
+      "macbook air",
+      "macbook pro"
+    ],
+    "headquarters": "Cupertino, CA",
+    "people": [
+      {
+        "name": "Steve Jobs",
+        "roles": ["founder"]
+      },
+      {
+        "name": "Steve Wozniak",
+        "roles": ["founder"]
+      },
+      {
+        "name": "Ronald Wayne",
+        "roles": ["founder"]
+      },
+      {
+        "name": "Arthur D. Levinson",
+        "role": ["Chairman"]
+      },
+      {
+        "name": "Tim Cook",
+        "role": ["CEO"]
+      },
+      {
+        "name": "Jonathan Ive",
+        "role": ["CDO"]
+      },
+      {
+        "name": "Luca Maestri",
+        "role": ["CFO"]
+      },
+      {
+        "name": "Jeff Williams",
+        "role": ["COO"]
+      }
+    ],
+    "terms": [
+      "smartphone",
+      "computer",
+      "mac",
+      "tablet",
+      "smartwatch"
+    ],
+    "competitors": [
+      "Google",
+      "Samsung",
+      "Microsoft",
+      "Sony"
+    ]
+  },
+  "Google": {
+    "tickers": ["GOOG", "GOOGL"],
+    "name": "Google",
+    "full_name": "Alphabet Inc.",
+    "products": [
+      "android",
+      "chrome"
+      "chromebook",
+      "nougat"
+      "nexus",
+      "marshmellow"
+      "google fiber",
+      "nest labs"
+    ],
+    "headquarters": "Mountain View, CA",
+    "people": [
+      {
+        "name": "Larry Page",
+        "roles": ["founder", "CEO", "owner"]
+      },
+      {
+        "name": "Sergey Brin",
+        "roles": ["founder", "President", "owner"]
+      },
+      {
+        "name": "Eric Schmidt",
+        "roles": ["Executive Chairman"]
+      },
+      {
+        "name": "Ruth Porat",
+        "role": "CFO"
+      }
+    ],
+    "terms": [
+      "smartphone",
+      "computer",
+      "tablet",
+      "smartwatch",
+      "search engine"
+    ],
+    "competitors": [
+      "Apple",
+      "Samsung",
+      "Microsoft",
+      "Sony"
+    ]
+  },
+  "Samsung": {
+    "tickers": ["KRW"],
+    "name": "Samsung",
+    "full_name": "Samsung Electronics Co Ltd",
+    "products": [
+      "samsung",
+      "samsung galaxy"
+      "galaxy note"
+    ],
+    "headquarters": "Seoul, South Korea",
+    "people": [
+      {
+        "name": "Lee Kun-hee",
+        "roles": ["Chairman"]
+      },
+      {
+        "name": "Lee Jae-yong",
+        "roles": ["Vice Chairman"]
+      }
+    ],
+    "terms": [
+      "smartphone",
+      "tablet",
+      "smartwatch",
+      "television",
+      "appliances"
+    ],
+    "competitors": [
+      "Apple",
+      "Samsung",
+      "Microsoft",
+      "Sony"
+    ]
+  },
+}
