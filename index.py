@@ -1,9 +1,12 @@
 import sys
 import json
+import arrow
+import pandas
 from datetime import datetime
 
 sys.path.insert(0, 'src')
 import retrieve
+import stockHist as history
 
 with open('terms.json') as data_file:
     comps = json.load(data_file)
@@ -12,6 +15,9 @@ headers = {
     'Content-Type': 'application/json',
     'Authorization': retrieve.authenticate()
 }
+
+global stockData
+stockData = {}
 
 def getAllTweets():
     allTweets = {}
@@ -26,7 +32,16 @@ def getAllTweets():
             companyTweets = list(tweets + companyTweets)
         companyTweets = list({ct['id']:ct for ct in companyTweets}.values()) # removes duplicate tweets
 
+        dates = [arrow.get(tweet['created_at'], 'ddd MMM DD HH:mm:ss Z YYYY') for tweet in companyTweets]
+
+        stockData[company['name']] = {
+            'begin': min(dates),
+            'end': max(dates),
+            'ticker': company['tickers'][0]
+        }
+
         allTweets[company['name']] = companyTweets
     return allTweets
 
-getAllTweets()
+tweetList = getAllTweets()
+stockData = history.getStockData(stockData)
