@@ -23,29 +23,18 @@ def authenticate():
         bearer = resp.json()['token_type'][0:1].upper() + resp.json()['token_type'][1:]
         return bearer + ' ' + resp.json()['access_token']
 
-def getTweets(query):
-    auth = authenticate()
-    if (auth == None):
-        return
+def printTweets(tweets):
+    for t in tweets:
+        soupText = BeautifulSoup(t['text'], 'html.parser')
+        soupUser = BeautifulSoup(t['user']['name'], 'html.parser')
+        print(soupUser.encode('utf-8'), '\t\t', soupText.encode("utf-8"))
 
-    headers = {
-        'Content-Type': 'application/json',
-        'Authorization': auth
-    }
+def getTweets(query, headers):
     url = 'https://api.twitter.com/1.1/search/tweets.json?lang=en&result_type=mixed&q='
 
     resp = requests.get(url=url+query, headers=headers)
     if resp.status_code != 200:
         print(resp.status_code, resp.reason)
     else:
-        hello = json.loads(resp.text)
-        statuses = hello['statuses']
-
-        for s in statuses:
-            soupText = BeautifulSoup(s['text'], 'html.parser')
-            soupUser = BeautifulSoup(s['user']['name'], 'html.parser')
-            # print(soupUser.encode('utf-8'), '\t\t', soupText.encode("utf-8"))
-            # print(soupText.encode("utf-8"))
+        statuses = json.loads(resp.text)['statuses']
         return statuses
-
-# main('iphone')

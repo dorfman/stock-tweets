@@ -8,6 +8,3 @@ Python 3.5.2
 
 ## Run
 > python index
-
-## TEST COMMIT
-> Hello BOI

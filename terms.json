@@ -1,15 +1,15 @@
-{
-  "Apple": {
-    "tickers": ["AAPL"],
+[
+  {
     "name": "Apple",
+    "tickers": ["AAPL"],
     "full_name": "Apple Inc.",
     "products": [
       "iphone",
-      "mac"
+      "mac",
       "macbook",
-      "ipad"
+      "ipad",
       "apple watch",
-      "iphone 7"
+      "iphone 7",
       "macbook air",
       "macbook pro"
     ],
@@ -62,17 +62,17 @@
       "Sony"
     ]
   },
-  "Google": {
-    "tickers": ["GOOG", "GOOGL"],
+  {
     "name": "Google",
+    "tickers": ["GOOG", "GOOGL"],
     "full_name": "Alphabet Inc.",
     "products": [
       "android",
-      "chrome"
+      "chrome",
       "chromebook",
-      "nougat"
+      "nougat",
       "nexus",
-      "marshmellow"
+      "marshmellow",
       "google fiber",
       "nest labs"
     ],
@@ -109,13 +109,13 @@
       "Sony"
     ]
   },
-  "Samsung": {
-    "tickers": ["KRW"],
+  {
     "name": "Samsung",
+    "tickers": ["005930.KS"],
     "full_name": "Samsung Electronics Co Ltd",
     "products": [
       "samsung",
-      "samsung galaxy"
+      "samsung galaxy",
       "galaxy note"
     ],
     "headquarters": "Seoul, South Korea",
@@ -142,5 +142,5 @@
       "Microsoft",
       "Sony"
     ]
-  },
-}
+  }
+]
