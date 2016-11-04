@@ -1,3 +1,4 @@
+import arrow
 import requests
 import json
 from bs4 import BeautifulSoup
@@ -5,6 +6,9 @@ import base64
 
 with open('config.json') as data_file:
     config = json.load(data_file)
+
+with open('terms.json') as data_file:
+    comps = json.load(data_file)
 
 def authenticate():
     clientKeyAndSecret = config['twitter']['client_key'] + ':' + config['twitter']['client_secret']
@@ -38,3 +42,28 @@ def getTweets(query, headers):
     else:
         statuses = json.loads(resp.text)['statuses']
         return statuses
+
+def getAllTweets(headers):
+    stockData = {}
+    allTweets = {}
+    for company in comps:
+        names = [c['name'] for c in company['people']]
+        # concats lists and terms to search for
+        terms = list(set([company['name']] + company['tickers'] + company['terms'] + company['products'] + names))
+
+        companyTweets = []
+        for term in terms:
+            tweets = getTweets(term, headers)
+            companyTweets = list(tweets + companyTweets)
+        companyTweets = list({ct['id']:ct for ct in companyTweets}.values()) # removes duplicate tweets
+
+        dates = [arrow.get(tweet['created_at'], 'ddd MMM DD HH:mm:ss Z YYYY') for tweet in companyTweets]
+
+        stockData[company['name']] = {
+            'begin': min(dates),
+            'end': max(dates),
+            'ticker': company['tickers'][0]
+        }
+
+        allTweets[company['name']] = companyTweets
+    return allTweets, stockData

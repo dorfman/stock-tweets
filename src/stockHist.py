@@ -1,4 +1,3 @@
-import arrow
 import pandas
 
 def ConstructURL(company, start, end):
