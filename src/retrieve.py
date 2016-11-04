@@ -33,8 +33,10 @@ def printTweets(tweets):
         soupUser = BeautifulSoup(t['user']['name'], 'html.parser')
         print(soupUser.encode('utf-8'), '\t\t', soupText.encode("utf-8"))
 
-def getTweets(query, headers):
-    url = 'https://api.twitter.com/1.1/search/tweets.json?lang=en&result_type=mixed&q='
+def getTweets(query, headers, dates=None):
+    url = 'https://api.twitter.com/1.1/search/tweets.json?lang=en&result_type=mixed&'
+    # url += 'pls=a' if dates != None
+    url += 'q='
 
     resp = requests.get(url=url+query, headers=headers)
     if resp.status_code != 200:
@@ -43,22 +45,25 @@ def getTweets(query, headers):
         statuses = json.loads(resp.text)['statuses']
         return statuses
 
-def getAllTweets(headers):
+def getTerms(company):
+    names = [c['name'] for c in company['people']]
+    # concats lists and terms to search for
+    return list(set([company['name']] + company['tickers'] + company['terms'] + company['products'] + names))
+
+def loopTermTweets(terms, headers):
+    companyTweets = []
+    for term in terms:
+        tweets = getTweets(term, headers)
+        companyTweets = list(tweets + companyTweets)
+    return list({ct['id']:ct for ct in companyTweets}.values()) # removes duplicate tweets
+
+def getAllRecentTweets(headers):
     stockData = {}
     allTweets = {}
     for company in comps:
-        names = [c['name'] for c in company['people']]
-        # concats lists and terms to search for
-        terms = list(set([company['name']] + company['tickers'] + company['terms'] + company['products'] + names))
-
-        companyTweets = []
-        for term in terms:
-            tweets = getTweets(term, headers)
-            companyTweets = list(tweets + companyTweets)
-        companyTweets = list({ct['id']:ct for ct in companyTweets}.values()) # removes duplicate tweets
+        companyTweets = loopTermTweets(getTerms(company), headers)
 
         dates = [arrow.get(tweet['created_at'], 'ddd MMM DD HH:mm:ss Z YYYY') for tweet in companyTweets]
-
         stockData[company['name']] = {
             'begin': min(dates),
             'end': max(dates),

@@ -6,8 +6,9 @@ from datetime import datetime
 
 sys.path.insert(0, 'src')
 import stockHist as history
+import retrieve
 
-with open('config.json') as data_file:
+with open('training-config.json') as data_file:
     config = json.load(data_file)
 
 with open('terms.json') as data_file:
@@ -18,8 +19,8 @@ def getAllStocks():
     stockData = {}
     for company in comps:
         stockData[company] = {
-            'begin': arrow.get(config['training']['begin'], 'MM-DD-YYYY'),
-            'end': arrow.get(config['training']['end'], 'MM-DD-YYYY'),
+            'begin': arrow.get(config['begin'], 'MM-DD-YYYY'),
+            'end': arrow.get(config['end'], 'MM-DD-YYYY'),
             'ticker': company
         }
     return stockData
@@ -55,7 +56,7 @@ def getHighsAndLows(data):
                 stocks.set_value(index, 'Lowest7 Change', 100 * (minVal - stocks.iloc[index]['High'])/stocks.iloc[index]['High'])
 
 def getSignificantDates(data):
-    change = config['training']['absChange']
+    change = config['absChange']
     sigDates = {}
 
     for d in data:
@@ -65,12 +66,12 @@ def getSignificantDates(data):
         for index in range(len(stocks)):
 
             h7 = stocks.iloc[index]['Highest7 Change']
-            if h7 > change or h7 < 0:
+            if h7 > change or h7 < 0:  # TODO: Check for negative high or not?
                 row = stocks.iloc[index]
                 sigDates[d].append({'begin': row['Date'], 'end': row['Highest7 Date'], 'change': row['Highest7 Change']})
 
             l7 = stocks.iloc[index]['Lowest7 Change']
-            if l7 < -change or l7 > 0:
+            if l7 < -change or l7 > 0: # TODO: Check for positive low or not?
                 row = stocks.iloc[index]
                 sigDates[d].append({'begin': row['Date'], 'end': row['Lowest7 Date'], 'change': row['Lowest7 Change']})
 
@@ -81,4 +82,9 @@ def getTrainingSet():
     data = history.getStockData(stockConfig)
     getHighsAndLows(data)
     trainSet = getSignificantDates(data)
+
+    for t in trainSet:
+        # print(pandas.DataFrame(trainSet[t]).sort_values('begin', ascending=True))
+        pandas.DataFrame(trainSet[t]).sort_values('begin', ascending=True).to_csv(path_or_buf='./training/'+t+'.csv')
+
     return trainSet

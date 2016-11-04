@@ -19,9 +19,10 @@ headers = {
 
 if (len(sys.argv) > 1):
     tSet = train.getTrainingSet()
-    print(tSet)
+    # print(tSet)
+    # retrieve.getAllTweets
 
 else:
-    tweetList, stockData = retrieve.getAllTweets(headers)
+    tweetList, stockData = retrieve.getAllRecentTweets(headers)
     stockData = history.getStockData(stockData)
     print(stockData)
