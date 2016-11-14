@@ -35,7 +35,7 @@ def printTweets(tweets):
 
 def getTweets(query, headers, dates=None):
     url = 'https://api.twitter.com/1.1/search/tweets.json?lang=en&result_type=mixed&'
-    # url += 'pls=a' if dates != None
+    url += dates if dates != None else ''
     url += 'q='
 
     resp = requests.get(url=url+query, headers=headers)
@@ -50,10 +50,10 @@ def getTerms(company):
     # concats lists and terms to search for
     return list(set([company['name']] + company['tickers'] + company['terms'] + company['products'] + names))
 
-def loopTermTweets(terms, headers):
+def loopTermTweets(terms, headers, dates=None):
     companyTweets = []
     for term in terms:
-        tweets = getTweets(term, headers)
+        tweets = getTweets(term, headers, dates)
         companyTweets = list(tweets + companyTweets)
     return list({ct['id']:ct for ct in companyTweets}.values()) # removes duplicate tweets
 

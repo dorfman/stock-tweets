@@ -18,7 +18,8 @@ headers = {
 }
 
 if (len(sys.argv) > 1):
-    tSet = train.getTrainingSet()
+    tSet = train.getTrainingSetDates()
+    train.getTrainingSetTweets(tSet)
     # print(tSet)
     # retrieve.getAllTweets
 
