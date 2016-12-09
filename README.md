@@ -1,5 +1,5 @@
 # stock-tweets
-Looks for a correlation between tweets and stocks. 
+Looks for a correlation between tweets and stocks.
 
 Uses the Yahoo Finance and Twitter APIs to retrieve stock information and tweets
 that were posted within the last week, respectively.
@@ -7,17 +7,18 @@ Uses the [GetOldTweets](https://github.com/Jefferson-Henrique/GetOldTweets-pytho
 project to retrieve tweets that were posted over a week ago.
 
 ## Requirements
-Python 3.5.2
+- Python 3.5.2
+- Python 2.7.10 (a dependency for collecting the training set only works in Python 2)
 
 ## Install
-> pip3 install -r requirements.txt
+> pip install -r requirements.txt
 
 ## Run
-> python index
+> python index.py
 
 ## To Collect Training Set Data
-> python index --training
+> python index.py --training
 
 ## Modification to GetOldTweets-python-master
 - Added parentheses to `print` calls
-- Removed `got` directory and renamed `got3` to be `got`
+- Added conditional logic check what Python version is in use to import proper `got` module

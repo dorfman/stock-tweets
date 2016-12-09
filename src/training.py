@@ -8,16 +8,21 @@ sys.path.insert(0, 'src')
 import stockHist as history
 import retrieve
 
+if sys.version_info[0] < 3:
+    import got
+else:
+    import got3 as got
+
 with open('training-config.json') as data_file:
     config = json.load(data_file)
 
 with open('terms.json') as data_file:
     terms = json.load(data_file)
-comps = [t['tickers'][0] for t in terms]
+tickers = [t['tickers'][0] for t in terms]
 
 def getAllStocks():
     stockData = {}
-    for company in comps:
+    for company in tickers:
         stockData[company] = {
             'begin': arrow.get(config['begin'], 'MM-DD-YYYY'),
             'end': arrow.get(config['end'], 'MM-DD-YYYY'),
@@ -77,14 +82,29 @@ def getSignificantDates(data):
 
     return sigDates
 
-def getTrainingSet():
+def getTrainingSetDates():
     stockConfig = getAllStocks()
     data = history.getStockData(stockConfig)
     getHighsAndLows(data)
     trainSet = getSignificantDates(data)
 
-    for t in trainSet:
-        # print(pandas.DataFrame(trainSet[t]).sort_values('begin', ascending=True))
-        pandas.DataFrame(trainSet[t]).sort_values('begin', ascending=True).to_csv(path_or_buf='./training/'+t+'.csv')
-
     return trainSet
+
+def getTweets(term, begin, end):
+    tweetCriteria = got.manager.TweetCriteria().setQuerySearch(term).setSince(begin).setUntil(end).setMaxTweets(10)
+    tweets = got.manager.TweetManager.getTweets(tweetCriteria)
+    return tweets
+
+# headers not needed. using github lib
+def loopTermTweets(terms, begin, end):
+    companyTweets = []
+    for term in terms:
+        tweets = getTweets(term, begin, end)
+        companyTweets = list(tweets + companyTweets)
+    return list({ct['id']:ct for ct in companyTweets}.values()) # removes duplicate tweets
+
+def getTrainingSetTweets(setDates):
+    for company in terms:
+        for dates in setDates[company['tickers'][0]]:
+            dates['tweets'] = loopTermTweets(retrieve.getTerms(company), dates['begin'], dates['end'])
+    return setDates

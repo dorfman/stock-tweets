@@ -2,3 +2,5 @@
 config.json
 
 training/
+*.pyc
+.DS_Store
