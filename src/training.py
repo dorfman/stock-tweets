@@ -111,4 +111,7 @@ def getTrainingSetTweets(setDates):
     for company in terms:
         for dates in setDates[company['tickers'][0]]:
             dates['tweets'] = loopTermTweets(retrieve.getTerms(company), dates['begin'], dates['end'])
+        df = pandas.DataFrame(setDates[company['tickers'][0]])
+        df.to_csv(company['name'] + '.csv')
+        df.to_json(company['name'] + '.json')
     return setDates
