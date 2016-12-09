@@ -3,6 +3,7 @@ import json
 import arrow
 import pandas
 from datetime import datetime
+from time import sleep
 
 sys.path.insert(0, 'src')
 import stockHist as history
@@ -100,7 +101,10 @@ def loopTermTweets(terms, begin, end):
     companyTweets = []
     for term in terms:
         tweets = getTweets(term, begin, end)
+        if len(tweets) > 0:
+            print(tweets[0].text)
         companyTweets = list(tweets + companyTweets)
+        sleep(0.125)
     return list({ct['id']:ct for ct in companyTweets}.values()) # removes duplicate tweets
 
 def getTrainingSetTweets(setDates):

@@ -1,8 +1,5 @@
 import sys
 import json
-import arrow
-import pandas
-from datetime import datetime
 
 sys.path.insert(0, 'src')
 import retrieve
