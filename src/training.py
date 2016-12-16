@@ -92,7 +92,7 @@ def getTrainingSetDates():
     return trainSet
 
 def getTweets(term, begin, end):
-    tweetCriteria = got.manager.TweetCriteria().setQuerySearch(term).setSince(begin).setUntil(end).setMaxTweets(10)
+    tweetCriteria = got.manager.TweetCriteria().setQuerySearch(term).setSince(begin).setUntil(end).setMaxTweets(10).setTopTweets(True)
     tweets = got.manager.TweetManager.getTweets(tweetCriteria)
     return tweets
 
@@ -101,11 +101,10 @@ def loopTermTweets(terms, begin, end):
     companyTweets = []
     for term in terms:
         tweets = getTweets(term, begin, end)
-        if len(tweets) > 0:
-            print(tweets[0].text)
-        companyTweets = list(tweets + companyTweets)
+        companyTweets = tweets + companyTweets
         sleep(0.125)
-    return list({ct['id']:ct for ct in companyTweets}.values()) # removes duplicate tweets
+
+    return list({ct.id:ct for ct in companyTweets}.values()) # removes duplicate tweets
 
 def getTrainingSetTweets(setDates):
     for company in terms:

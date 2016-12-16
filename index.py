@@ -22,4 +22,3 @@ else:
 
     tweetList, stockData = retrieve.getAllRecentTweets(headers)
     stockData = history.getStockData(stockData)
-    print(stockData)

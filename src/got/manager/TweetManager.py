@@ -22,13 +22,11 @@ class TweetManager:
 
 		while active:
 			json = TweetManager.getJsonReponse(tweetCriteria, refreshCursor, cookieJar)
-			print(json)
 			if len(json['items_html'].strip()) == 0:
 				break
 
 			refreshCursor = json['min_position']
 			tweets = PyQuery(json['items_html'])('div.js-stream-tweet')
-			print(len(tweets))
 
 			if len(tweets) == 0:
 				break
